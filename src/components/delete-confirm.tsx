@@ -19,12 +19,10 @@ import { useRouter } from "next/navigation"
 
 export function DeleteEnrollment({ id, studentName }: { id: string; studentName: string }) {
   const [isLoading, setIsLoading] = React.useState(false)
-  // --- 1. TAMBAHKAN STATE OPEN ---
   const [open, setOpen] = React.useState(false) 
   const router = useRouter()
 
   const onDelete = async (e: React.MouseEvent) => {
-    // --- 2. CEGAH PENUTUPAN OTOMATIS SAAT PROSES ---
     e.preventDefault() 
     
     setIsLoading(true)
@@ -33,7 +31,6 @@ export function DeleteEnrollment({ id, studentName }: { id: string; studentName:
     if (result.success) {
       toast.success("Dihapus!", { description: `Data KRS ${studentName} berhasil dihapus.` })
       router.refresh()
-      // --- 3. TUTUP DIALOG MANUAL SAAT BERHASIL ---
       setOpen(false) 
     } else {
       toast.error("Gagal!", { description: result.message })
@@ -42,7 +39,6 @@ export function DeleteEnrollment({ id, studentName }: { id: string; studentName:
   }
 
   return (
-    // --- 4. HUBUNGKAN STATE KE COMPONENT ---
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <button className="flex w-full items-center px-2 py-1.5 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 outline-none cursor-pointer">
@@ -60,7 +56,7 @@ export function DeleteEnrollment({ id, studentName }: { id: string; studentName:
         <AlertDialogFooter>
           <AlertDialogCancel disabled={isLoading}>Batal</AlertDialogCancel>
           <AlertDialogAction 
-            onClick={onDelete} // Panggil fungsi yang sudah di-fix
+            onClick={onDelete}
             className="bg-red-600 hover:bg-red-700 text-white"
             disabled={isLoading}
           >

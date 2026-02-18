@@ -13,12 +13,10 @@ export default function SearchBar() {
     const [text, setText] = useState(searchParams.get("search") || "");
     const [query] = useDebounce(text, 500);
 
-    // --- TAMBAHKAN INI ---
     const handleClear = () => {
         setText("");
     };
 
-    // 1. Sinkronisasi dari URL ke State (Penting agar input kosong saat tombol Reset Filter diklik)
     useEffect(() => {
         const s = searchParams.get("search") || "";
         if (s !== text) {
@@ -26,7 +24,6 @@ export default function SearchBar() {
         }
     }, [searchParams]);
 
-    // 2. Sinkronisasi dari State ke URL (Debounced)
     useEffect(() => {
         const params = new URLSearchParams(searchParams.toString());
         
@@ -57,15 +54,13 @@ export default function SearchBar() {
                 value={text}
                 className="block w-full p-2 pl-10 pr-10 text-sm text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-800 focus:ring-blue-500 focus:border-blue-500 outline-none"
                 placeholder="Cari NIM, Nama atau Kode MK"
-                onChange={(e) => setText(e.target.value)}
-            />
+                onChange={(e) => setText(e.target.value)} />
 
             {text && (
                 <button
                     type="button"
                     onClick={handleClear}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3 group"
-                >
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 group">
                     <X className="w-4 h-4 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-200 transition-colors" />
                 </button>
             )}

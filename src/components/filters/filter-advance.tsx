@@ -16,10 +16,10 @@ import { Trash2, ListFilter, FilterIcon, Plus } from "lucide-react";
 
 // Tipe Data Filter
 type FilterRow = {
-  id: string; // unique id untuk key react
+  id: string;
   field: string;
   operator: string;
-  value: string; // untuk between, format: "val1,val2"
+  value: string;
 };
 
 const AVAILABLE_FIELDS = [
@@ -45,13 +45,11 @@ export function AdvancedFilter() {
   const [isOpen, setIsOpen] = useState(false);
   const [filters, setFilters] = useState<FilterRow[]>([]);
 
-  // Load filters from URL on mount
   useEffect(() => {
     const filtersParam = searchParams.get("filters");
     if (filtersParam) {
       try {
         const parsed = JSON.parse(filtersParam);
-        // Tambahkan ID unik untuk React rendering jika belum ada
         setFilters(parsed.map((f: any) => ({ ...f, id: Math.random().toString(36).substr(2, 9) })));
       } catch (e) {
         console.error("Failed to parse filters", e);
@@ -78,14 +76,12 @@ export function AdvancedFilter() {
     const params = new URLSearchParams(searchParams.toString());
     
     if (filters.length > 0) {
-      // Bersihkan data sebelum kirim (hapus id internal react)
       const payload = filters.map(({ id, ...rest }) => rest);
       params.set("filters", JSON.stringify(payload));
     } else {
       params.delete("filters");
     }
     
-    // Reset ke halaman 1 saat filter berubah
     params.set("page", "1");
     
     router.push(`?${params.toString()}`);

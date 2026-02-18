@@ -45,7 +45,6 @@ export const getEnrollments = async (
         };
 
     } catch (error) {
-        // Ini menangani "fetch failed" (Network error / Server Down)
         console.error("Fetch Connection Failed:", error);
         
         return { 
@@ -68,10 +67,9 @@ export const createEnrollment = async (payload: any) => {
         const json = await res.json();
 
         if (!res.ok) {
-            // PERBAIKAN: Ambil properti 'errors' dari json respon Laravel
             return { 
                 success: false, 
-                errors: json.errors || json, // Jika json.errors tidak ada, ambil json-nya saja
+                errors: json.errors || json,
                 message: json.message || "Gagal menyimpan data" 
             };
         }
@@ -85,7 +83,7 @@ export const createEnrollment = async (payload: any) => {
 export const updateEnrollment = async (id: string | number, payload: any) => {
     try {
         const res = await fetch(`${process.env.APP_URL}/enrollments/${id}`, {
-            method: 'PUT', // Atau PATCH sesuai route BE kamu
+            method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
         });

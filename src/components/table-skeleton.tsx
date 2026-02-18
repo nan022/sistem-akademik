@@ -11,13 +11,11 @@ import {
 export function TableSkeleton() {
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-6 space-y-4">
-      {/* Container Tabel - Disamakan dengan gaya Data Table asli */}
       <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-sm overflow-hidden">
         <div className="w-full overflow-x-auto">
           <Table>
             <TableHeader className="bg-slate-50/80 dark:bg-slate-900/50 backdrop-blur-sm">
               <TableRow className="hover:bg-transparent border-b dark:border-slate-800">
-                {/* Asumsi ada 8 kolom sesuai kode awal Anda */}
                 {[...Array(8)].map((_, i) => (
                   <TableHead 
                     key={i} 
@@ -29,7 +27,6 @@ export function TableSkeleton() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {/* 10 Baris Data agar tinggi tabel konsisten */}
               {[...Array(10)].map((_, i) => (
                 <TableRow 
                   key={i} 

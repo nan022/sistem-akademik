@@ -14,7 +14,7 @@ export default async function EnrollmentTableWrapper({
   const search = searchParams.search || "";
   const status = searchParams.status || ""; 
   const semester = searchParams.semester || "";
-  const filters = searchParams.filters || ""; // Ambil filter mentah (JSON string)
+  const filters = searchParams.filters || "";
 
   const { data, totalPages, total } = await getEnrollments(
     currentPage, 

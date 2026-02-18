@@ -20,7 +20,7 @@ import { toast } from "sonner"
 import { createEnrollment, updateEnrollment } from "@/lib/api"
 
 interface EnrollmentFormProps {
-  initialData?: any; // Data dari baris tabel jika mode edit
+  initialData?: any;
   isEdit?: boolean;
 }
 
@@ -30,7 +30,7 @@ export function EnrollmentForm({ initialData, isEdit = false }: EnrollmentFormPr
   const [loading, setLoading] = React.useState(false)
   const [errors, setErrors] = React.useState<any>({})
 
-  // Inisialisasi state dengan data awal jika ada (untuk edit)
+  // Inisialisasi state
   const [formData, setFormData] = React.useState({
     nim: initialData?.student?.nim || "",
     student_name: initialData?.student?.name || "",
@@ -43,7 +43,6 @@ export function EnrollmentForm({ initialData, isEdit = false }: EnrollmentFormPr
     status: initialData?.status || "DRAFT"
   })
 
-  // Reset form saat modal dibuka/tutup atau data berubah
   React.useEffect(() => {
     if (open && initialData) {
         setFormData({
@@ -66,7 +65,6 @@ export function EnrollmentForm({ initialData, isEdit = false }: EnrollmentFormPr
     setErrors({}); 
 
     try {
-      // Logic Switching: Panggil update jika isEdit, panggil create jika tidak
       const result = isEdit 
         ? await updateEnrollment(initialData.id, formData)
         : await createEnrollment(formData);
@@ -87,22 +85,20 @@ export function EnrollmentForm({ initialData, isEdit = false }: EnrollmentFormPr
         setOpen(false);
         router.refresh();
       } else {
-  if (result.errors) {
-    setErrors(result.errors);
-    // Ambil pesan error pertama dari object errors jika ada
-    const firstErrorField = Object.keys(result.errors)[0];
-    const errorMessage = result.errors[firstErrorField][0]; // Ambil detail pesannya
+        if (result.errors) {
+          setErrors(result.errors);
+          const firstErrorField = Object.keys(result.errors)[0];
+          const errorMessage = result.errors[firstErrorField][0];
 
-    toast.error("Gagal Menyimpan", { 
-      description: errorMessage || `Masalah pada field: ${firstErrorField}` 
-    });
-  } else {
-    // Jika tidak ada error per field, tapi ada message global (seperti duplikasi)
-    toast.error("Gagal", { 
-        description: result.message || "Terjadi kesalahan pada sistem." 
-    });
-  }
-}
+          toast.error("Gagal Menyimpan", { 
+            description: errorMessage || `Masalah pada field: ${firstErrorField}` 
+          });
+        } else {
+          toast.error("Gagal", { 
+              description: result.message || "Terjadi kesalahan pada sistem." 
+          });
+        }
+      }
     } catch (error: any) {
       toast.error("Network Error", { description: "Gagal terhubung ke server." });
     } finally {
@@ -144,7 +140,7 @@ export function EnrollmentForm({ initialData, isEdit = false }: EnrollmentFormPr
         <form onSubmit={handleSubmit} className="space-y-8 py-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
-            {/* SEKSI 1: MAHASISWA */}
+            {/* SECTION 1: MAHASISWA */}
             <div className="space-y-5 p-5 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40">
               <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3 mb-2">
                 <User className="w-4 h-4 text-blue-500" />
@@ -158,7 +154,7 @@ export function EnrollmentForm({ initialData, isEdit = false }: EnrollmentFormPr
                   </Label>
                   <Input 
                     id="nim"
-                    disabled={isEdit} // NIM biasanya tidak boleh diubah saat edit
+                    disabled={isEdit}
                     className={`bg-white dark:bg-slate-950 transition-all ${errors.nim ? "border-red-500" : "dark:border-slate-700"}`}
                     value={formData.nim} 
                     onChange={(e) => setFormData({...formData, nim: e.target.value.replace(/\D/g, "")})} 
@@ -183,7 +179,7 @@ export function EnrollmentForm({ initialData, isEdit = false }: EnrollmentFormPr
                   </Label>
                   <Input 
                     id="email"
-                    disabled={isEdit} // Email juga biasanya identitas unik
+                    disabled={isEdit}
                     className={`bg-white dark:bg-slate-950 ${errors.email ? "border-red-500" : "dark:border-slate-700"}`}
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
@@ -193,7 +189,7 @@ export function EnrollmentForm({ initialData, isEdit = false }: EnrollmentFormPr
               </div>
             </div>
 
-            {/* SEKSI 2: MATA KULIAH */}
+            {/* SECTION 2: MATA KULIAH */}
             <div className="space-y-5 p-5 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40">
               <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3 mb-2">
                 <BookOpen className="w-4 h-4 text-amber-500" />
@@ -240,7 +236,7 @@ export function EnrollmentForm({ initialData, isEdit = false }: EnrollmentFormPr
             </div>
           </div>
 
-          {/* SEKSI 3: AKADEMIK & STATUS */}
+          {/* SECTION 3: AKADEMIK & STATUS */}
           <div className="p-5 rounded-xl border border-indigo-100 dark:border-indigo-900/30 bg-indigo-50/30 dark:bg-indigo-950/10">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-2">

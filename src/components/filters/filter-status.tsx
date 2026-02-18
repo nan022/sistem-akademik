@@ -17,7 +17,6 @@ export function FilterStatus() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   
-  // Ambil nilai status aktif dari URL
   const currentStatus = searchParams.get("status")
 
   const handleSelect = (status: string | null) => {
@@ -29,7 +28,6 @@ export function FilterStatus() {
       params.delete("status")
     }
     
-    // Sesuai praktik terbaik, reset ke halaman 1 saat filter berubah
     params.set("page", "1")
     router.push(`${pathname}?${params.toString()}`)
   }

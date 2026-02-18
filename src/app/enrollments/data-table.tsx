@@ -18,7 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import {
   Select,
   SelectContent,
@@ -47,7 +47,6 @@ export function DataTable<TData, TValue>({
     const currentPage = Number(searchParams.get("page")) || 1
     const pageSize = Number(searchParams.get("per_page")) || 10
 
-    // Baca state sorting dari URL agar UI sinkron
     const sortParam = searchParams.get("sort") || "id"
     const orderParam = searchParams.get("order") || "desc"
 
@@ -56,7 +55,6 @@ export function DataTable<TData, TValue>({
     ], [sortParam, orderParam])
 
     const handleSortingChange = (updaterOrValue: any) => {
-        // Ambil nilai sorting berikutnya dari Tanstack
         const nextSorting = typeof updaterOrValue === 'function' 
             ? updaterOrValue(sortingState) 
             : updaterOrValue
@@ -64,19 +62,13 @@ export function DataTable<TData, TValue>({
         const params = new URLSearchParams(searchParams.toString())
         
         if (nextSorting.length > 0) {
-            // Logika Penting: Jika user mengklik kolom yang sama, Tanstack akan 
-            // memutar: undefined -> asc -> desc. 
             params.set("sort", nextSorting[0].id)
             params.set("order", nextSorting[0].desc ? "desc" : "asc")
         } else {
-            // Jika sorting dihapus (toggle off)
             params.delete("sort")
             params.delete("order")
         }
-        
-        // Reset ke halaman 1 saat sort berubah agar tidak bingung
         params.set("page", "1") 
-        
         router.push(`${pathname}?${params.toString()}`)
     }
 
@@ -119,7 +111,6 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-6 space-y-4">
-      {/* Container Tabel Utama dengan Dark Mode support */}
       <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-sm overflow-hidden">
         <div className="w-full overflow-x-auto">
           <Table>
@@ -163,10 +154,9 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
 
-      {/* FOOTER NAVIGASI dengan Dark Mode support */}
+      {/* FOOTER */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
         <div className="flex items-center gap-4">
-          {/* Tambahan UI Page Size */}
           <div className="flex items-center space-x-2">
             <p className="text-sm font-medium text-slate-500">Baris per halaman</p>
             <Select
@@ -184,15 +174,6 @@ export function DataTable<TData, TValue>({
                 ))}
               </SelectContent>
             </Select>
-          </div>
-
-          <div className="text-sm text-slate-500 dark:text-slate-400">
-            Menampilkan <span className="font-semibold text-slate-900 dark:text-slate-100">
-              {data?.length || 0}
-            </span> dari{" "}
-            <span className="font-semibold text-slate-900 dark:text-slate-100">
-              {Number(total || 0).toLocaleString('id-ID')}
-            </span> data.
           </div>
         </div>
         

@@ -28,13 +28,11 @@ export default function Header() {
             </Link>
           </div>
 
-            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-4 ml-8">
                 <ModeToggle />
                 <EnrollmentForm />
             </div>
 
-            {/* Mobile Menu - ModeToggle & Hamburger */}
             <div className="md:hidden flex items-center space-x-3">
                 <ModeToggle />
                 <button
@@ -51,9 +49,7 @@ export default function Header() {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-4">
-          {/* Categories Section */}
             <div className="px-4">
-                {/* Action Buttons */}
                 <div className="space-y-2">
                     <Link href={"/login"}>
                         <Button variant="outline" className="w-full border-indigo-300 dark:border-indigo-700 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 cursor-pointer">

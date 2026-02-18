@@ -2,7 +2,7 @@ import Header from "@/components/header";
 import FilterComponent from "@/components/filter";
 import { Suspense } from "react";
 import EnrollmentTableWrapper from "./enrollments/enrollment-table-wrapper";
-import { TableSkeleton } from "@/components/table-skeleton"; // Buat komponen ini nanti
+import { TableSkeleton } from "@/components/table-skeleton";
 
 export default async function Home(props: {
   searchParams: Promise<{ 
@@ -13,8 +13,6 @@ export default async function Home(props: {
   }>;
 }) {
   const searchParams = await props.searchParams;
-  
-  // Key unik agar Suspense aktif saat URL berubah
   const suspenseKey = JSON.stringify(searchParams);
 
   return (
@@ -23,7 +21,6 @@ export default async function Home(props: {
       <main className="flex-1 container mx-auto py-6">
         <FilterComponent />
         
-        {/* Suspense akan menampilkan fallback saat Wrapper sedang fetch data */}
         <Suspense key={suspenseKey} fallback={<TableSkeleton />}>
           <EnrollmentTableWrapper searchParams={searchParams} />
         </Suspense>

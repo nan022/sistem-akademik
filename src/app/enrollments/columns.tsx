@@ -1,14 +1,12 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown, ArrowUp, ArrowDown, MoreHorizontal, Edit, Trash2 } from "lucide-react"
+import { ArrowUpDown, ArrowUp, ArrowDown, MoreHorizontal} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-// Import shadcn DropdownMenu
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { EnrollmentForm } from "@/components/enroll-form"
@@ -108,11 +106,8 @@ export const columns: ColumnDef<Enrollment>[] = [
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-[160px]">
-            {/* Edit Mode */}
+          <DropdownMenuContent align="end" className="w-40">
             <EnrollmentForm isEdit={true} initialData={enrollment} />
-            
-            {/* Delete Mode dengan Konfirmasi */}
             <DeleteEnrollment 
                 id={enrollment.id} 
                 studentName={enrollment.student_name || "Mahasiswa"} 

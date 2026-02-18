@@ -9,7 +9,6 @@ export function ResetFilter() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  // Cek apakah ada filter yang aktif (selain page)
   const hasFilters = Array.from(searchParams.keys()).some(key => key !== 'page')
 
   const handleReset = () => {
